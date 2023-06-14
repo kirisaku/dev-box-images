@@ -19,7 +19,7 @@ jobs:
     if: "!contains(join(github.event.commits.*.message), '+nobuild')"
 
     env:
-      STORAGE_ACCOUNT: tdandiinpdevboximages
+      STORAGE_ACCOUNT: tsdandiinpdevboximages
       SUBNET_ID: /subscriptions/e5f715ae-6c72-4a5c-87c8-495590c34828/resourceGroups/Contoso-Images/providers/Microsoft.Network/virtualNetworks/contoso-images-vnet/subnets/builders
 
     steps:
@@ -36,4 +36,4 @@ jobs:
         run: az bicep upgrade
 
       - name: Deploy Build ACI Containers
-        run: python "./builder/build.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}"
+        run: python "./builder/build.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storageaccount "${{ env.STORAGE_ACCOUNT }}" 
